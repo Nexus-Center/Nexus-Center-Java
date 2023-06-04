@@ -83,21 +83,20 @@ public class ColetaMemoria {
             statusAlerta = "Alerta";
             mensagem.notificarErroMem(porcentagem);
         }
-        this.conectmem().update("insert into AlertaDashboard values(?,?,?,?)",
+        this.conectmem().update("insert into AlertaDashboard values(?,?,?,?,?)",
                 idAlerta = null,
                 coleta.dataHora,
                 statusAlerta,
-                3);
-        this.conectmemazu().update("insert into AlertaDashboard values(?,?,?)",
-                
+                3,
+                fkMaquina);
+        this.conectmemazu().update("insert into AlertaDashboard values(?,?,?,?)",
                 coleta.dataHora,
                 statusAlerta,
-                3);
-               
-        
+                3,
+                fkMaquina);
 
     }
-
+    
     public void enviaDadosMemazu(Integer fkMaquina, Integer fkEmpresa) {
         ColetaMemoria coleta = new ColetaMemoria();
 

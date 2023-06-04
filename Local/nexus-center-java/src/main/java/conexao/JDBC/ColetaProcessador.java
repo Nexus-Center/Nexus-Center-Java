@@ -27,6 +27,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
  * @author rafae
  */
 public class ColetaProcessador {
+
     private SlackeandoMetodos mensagem;
     private DateTimeFormatter formatter;
     private Integer idMetrica;
@@ -68,11 +69,9 @@ public class ColetaProcessador {
 
     public void enviaDadosProcessador(Integer fkMaquina, Integer fkEmpresa) throws SlackApiException, IOException {
         ColetaProcessador coleta = new ColetaProcessador();
-        mensagem= new SlackeandoMetodos();
-        
+        mensagem = new SlackeandoMetodos();
+
         // Alertas aqui
-
-
         // Envio de dados aqui         
         this.conectHd().update("insert into Metrica values(?,?,?,?,?,?,?)",
                 coleta.idMetrica = null,
@@ -90,7 +89,7 @@ public class ColetaProcessador {
                 fkEmpresa,
                 2);
 
-        porcentagem=((coleta.valorUtilizado / coleta.capacidade) * 100);
+        porcentagem = ((coleta.valorUtilizado / coleta.capacidade) * 100);
         if (porcentagem < 80) {
             statusAlerta = "Ideal";
         } else if (porcentagem >= 80 && porcentagem < 90) {
@@ -99,15 +98,17 @@ public class ColetaProcessador {
             statusAlerta = "Alerta";
             mensagem.notificarErroProcessador(porcentagem);
         }
-        this.conectHd().update("insert into AlertaDashboard values(?,?,?,?)",
+        this.conectHd().update("insert into AlertaDashboard values(?,?,?,?,?)",
                 idAlerta = null,
                 coleta.dataHora,
                 statusAlerta,
-                2);
-        this.conectHdAzu().update("insert into AlertaDashboard values(?,?,?)",
+                2,
+                fkMaquina);
+        this.conectHdAzu().update("insert into AlertaDashboard values(?,?,?,?)",
                 coleta.dataHora,
                 statusAlerta,
-                2);
+                2,
+                fkMaquina);
 
     }
 

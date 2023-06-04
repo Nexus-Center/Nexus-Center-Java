@@ -13,7 +13,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 
 
-// Classe Conexão com o Mysql baseado em aula de LP
 public class Conexao {
 
     private JdbcTemplate connectionmysql;
@@ -23,10 +22,10 @@ public class Conexao {
         BasicDataSource dataSourcemysql = new BasicDataSource();
         dataSourcemysql.setDriverClassName("com.mysql.cj.jdbc.Driver");
 // exemplo para MySql: "com.mysql.cj.jdbc.Driver"
-        dataSourcemysql.setUrl("jdbc:mysql://localhost:3310/NexusCenter");
+        dataSourcemysql.setUrl("jdbc:mysql://localhost:3306/NexusCenter");
 // exemplo para MySql: "jdbc:mysql://localhost:3306/meubanco"
         dataSourcemysql.setUsername("root");
-        dataSourcemysql.setPassword("#Gfgrupo6");
+        dataSourcemysql.setPassword("56674894");
         this.connectionmysql = new JdbcTemplate(dataSourcemysql);
         
         BasicDataSource dataSourceMSSQL = new BasicDataSource();

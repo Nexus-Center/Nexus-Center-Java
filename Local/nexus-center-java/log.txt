@@ -163,3 +163,7 @@
 03/06/2023 08:56:19 O Usuário fez login!
 03/06/2023 08:58:26 O Usuário fez login!
 03/06/2023 09:02:53 O Usuário fez login!
+04/06/2023 16:27:54 O Usuário fez login!
+04/06/2023 16:28:31 O Usuário fez login!
+04/06/2023 16:29:50 O Usuário fez login!
+04/06/2023 16:31:25 O Usuário fez login!

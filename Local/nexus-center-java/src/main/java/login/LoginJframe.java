@@ -389,187 +389,155 @@ public class LoginJframe extends javax.swing.JFrame {
                         dataHoraAcesso
                 );
                 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-                // Insert Tabela Componente
-//                List<Componente> ListaComponente = conMysql.query("select*From Componente  join ConfiguracaoComponente on fkComponente = idComponente where fkMaquina = ?",
-//                        new BeanPropertyRowMapper(Maquina.class), rsusariodao.getInt("idMaquina"));
-//                if (ListaComponente.isEmpty()) {
-//                    //set 1
-//                    componente.setTipoCompenente("Disco");
-//                    componente.setIdComponente(1);
-//
-//                    conMysql.update("insert into Componente(idComponente, tipoComponente) values (?,?)",
-//                            componente.getIdComponente(),
-//                            componente.getTipoCompenente()
-//                    );
-//
-//                    //set 2
-//                    componente.setIdComponente(2);
-//                    componente.setTipoCompenente("Processador");
-//
-//                    conMysql.update("insert into Componente(idComponente, tipoComponente) values (?,?)",
-//                            componente.getIdComponente(),
-//                            componente.getTipoCompenente()
-//                    );
-//
-//                    //set 3
-//                    componente.setIdComponente(3);
-//                    componente.setTipoCompenente("Memoria");
-//
-//                    conMysql.update("insert into Componente(idComponente, tipoComponente) values (?,?)",
-//                            componente.getIdComponente(),
-//                            componente.getTipoCompenente()
-//                    );
-//                }
-//
-//                        
-//    // Insert Tabela ConfiguracaoComponente 
-//                //set CPU
-//                componente.setIdComponente(1);
-//                configComponente.setUnidadeMedida("GB");
-//                conMysql.update("insert into ConfiguracaoComponente(fkMaquina, fkEmpresa, FkComponente,capacidade,unidadeMedida) values (?,?,?,?,?)",
+              
+    // Insert Tabela ConfiguracaoComponente 
+                //set CPU
+                componente.setIdComponente(1);
+                configComponente.setUnidadeMedida("GB");
+                conMysql.update("insert into ConfiguracaoComponente(fkMaquina, fkEmpresa, FkComponente,capacidade,unidadeMedida) values (?,?,?,?,?)",
+                        maquina.getIdMaquina(),
+                        maquina.getFkEmpresa(),
+                        componente.getIdComponente(),
+                        tamanhoTotalFormatadoDisco,
+                        configComponente.getUnidadeMedida()
+                );
+                conAzure.update("insert into ConfiguracaoComponente(fkMaquina, fkEmpresa, FkComponente,capacidade,unidadeMedida) values (?,?,?,?,?)",
+                        maquina.getIdMaquina(),
+                        maquina.getFkEmpresa(),
+                        componente.getIdComponente(),
+                        tamanhoTotalFormatadoDisco,
+                        configComponente.getUnidadeMedida()
+                );
+                //Tratando Dados Processador
+                componente.setIdComponente(2);
+
+                Long frequenciaLong = processador.getFrequencia();
+                double frequenciaGHz = frequenciaLong != null ? frequenciaLong / 1e9 : 0.0;
+                int frequenciaInt = (int) Math.round(frequenciaGHz);
+
+                // Set Processador
+                configComponente.setCapacidade(frequenciaInt);
+                configComponente.setUnidadeMedida("GHz");
+                conMysql.update("insert into ConfiguracaoComponente(fkMaquina, fkEmpresa, FkComponente,capacidade,unidadeMedida) values (?,?,?,?,?)",
+                        maquina.getIdMaquina(),
+                        maquina.getFkEmpresa(),
+                        componente.getIdComponente(),
+                        configComponente.getCapacidade(),
+                        configComponente.getUnidadeMedida()
+                );
+                conAzure.update("insert into ConfiguracaoComponente(fkMaquina, fkEmpresa, FkComponente,capacidade,unidadeMedida) values (?,?,?,?,?)",
+                        maquina.getIdMaquina(),
+                        maquina.getFkEmpresa(),
+                        componente.getIdComponente(),
+                        configComponente.getCapacidade(),
+                        configComponente.getUnidadeMedida()
+                );
+                //Tratando Dados Memoria
+                Long memoriaTotal = looca.getMemoria().getTotal();
+                long totalMemory = memoriaTotal != null ? memoriaTotal : 0L; // Verifica se a memória total é nula e atribui 0 em caso afirmativo
+                int memoriaTotalInt = (int) Math.round((double) totalMemory / (1024 * 1024 * 1024));
+
+                // Set Memoria
+                componente.setIdComponente(3);
+                configComponente.setCapacidade(memoriaTotalInt);
+                configComponente.setUnidadeMedida("GB");
+                conMysql.update("insert into ConfiguracaoComponente(fkMaquina, fkEmpresa, FkComponente,capacidade,unidadeMedida) values (?,?,?,?,?)",
+                        maquina.getIdMaquina(),
+                        maquina.getFkEmpresa(),
+                        componente.getIdComponente(),
+                        configComponente.getCapacidade(),
+                        configComponente.getUnidadeMedida()
+                );
+                conAzure.update("insert into ConfiguracaoComponente(fkMaquina, fkEmpresa, FkComponente,capacidade,unidadeMedida) values (?,?,?,?,?)",
+                        maquina.getIdMaquina(),
+                        maquina.getFkEmpresa(),
+                        componente.getIdComponente(),
+                        configComponente.getCapacidade(),
+                        configComponente.getUnidadeMedida()
+                );
+
+                //--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//                // Insert Tabela MetricaMouse 
+//                conMysql.update("insert into MetricaMouse(codernadaX,codernadaY,dataHora,statusMouse,fkMaquina,fkEmpresa) values (?,?,?,?,?,?)",
+//                        metricaMouse.getCordenadaX(),
+//                        metricaMouse.getCordenaday(),
+//                        metricaMouse.getDataHora(),
+//                        metricaMouse.getStatus(),
 //                        maquina.getIdMaquina(),
-//                        maquina.getFkEmpresa(),
-//                        componente.getIdComponente(),
-//                        tamanhoTotalFormatadoDisco,
-//                        configComponente.getUnidadeMedida()
+//                        maquina.getFkEmpresa()
 //                );
-//                conAzure.update("insert into ConfiguracaoComponente(fkMaquina, fkEmpresa, FkComponente,capacidade,unidadeMedida) values (?,?,?,?,?)",
-//                        maquina.getIdMaquina(),
-//                        maquina.getFkEmpresa(),
-//                        componente.getIdComponente(),
-//                        tamanhoTotalFormatadoDisco,
-//                        configComponente.getUnidadeMedida()
-//                );
-//                //Tratando Dados Processador
-//                componente.setIdComponente(2);
-//
-//                Long frequenciaLong = processador.getFrequencia();
-//                double frequenciaGHz = frequenciaLong != null ? frequenciaLong / 1e9 : 0.0;
-//                int frequenciaInt = (int) Math.round(frequenciaGHz);
-//
-//                // Set Processador
-//                configComponente.setCapacidade(frequenciaInt);
-//                configComponente.setUnidadeMedida("GHz");
-//                conMysql.update("insert into ConfiguracaoComponente(fkMaquina, fkEmpresa, FkComponente,capacidade,unidadeMedida) values (?,?,?,?,?)",
-//                        maquina.getIdMaquina(),
-//                        maquina.getFkEmpresa(),
-//                        componente.getIdComponente(),
-//                        configComponente.getCapacidade(),
-//                        configComponente.getUnidadeMedida()
-//                );
-//                conAzure.update("insert into ConfiguracaoComponente(fkMaquina, fkEmpresa, FkComponente,capacidade,unidadeMedida) values (?,?,?,?,?)",
-//                        maquina.getIdMaquina(),
-//                        maquina.getFkEmpresa(),
-//                        componente.getIdComponente(),
-//                        configComponente.getCapacidade(),
-//                        configComponente.getUnidadeMedida()
-//                );
-//                //Tratando Dados Memoria
-//                Long memoriaTotal = looca.getMemoria().getTotal();
-//                long totalMemory = memoriaTotal != null ? memoriaTotal : 0L; // Verifica se a memória total é nula e atribui 0 em caso afirmativo
-//                int memoriaTotalInt = (int) Math.round((double) totalMemory / (1024 * 1024 * 1024));
-//
-//                // Set Memoria
-//                componente.setIdComponente(3);
-//                configComponente.setCapacidade(memoriaTotalInt);
-//                configComponente.setUnidadeMedida("GB");
-//                conMysql.update("insert into ConfiguracaoComponente(fkMaquina, fkEmpresa, FkComponente,capacidade,unidadeMedida) values (?,?,?,?,?)",
-//                        maquina.getIdMaquina(),
-//                        maquina.getFkEmpresa(),
-//                        componente.getIdComponente(),
-//                        configComponente.getCapacidade(),
-//                        configComponente.getUnidadeMedida()
-//                );
-//                conAzure.update("insert into ConfiguracaoComponente(fkMaquina, fkEmpresa, FkComponente,capacidade,unidadeMedida) values (?,?,?,?,?)",
-//                        maquina.getIdMaquina(),
-//                        maquina.getFkEmpresa(),
-//                        componente.getIdComponente(),
-//                        configComponente.getCapacidade(),
-//                        configComponente.getUnidadeMedida()
-//                );
-//
-//                //--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-////                // Insert Tabela MetricaMouse 
-////                conMysql.update("insert into MetricaMouse(codernadaX,codernadaY,dataHora,statusMouse,fkMaquina,fkEmpresa) values (?,?,?,?,?,?)",
-////                        metricaMouse.getCordenadaX(),
-////                        metricaMouse.getCordenaday(),
-////                        metricaMouse.getDataHora(),
-////                        metricaMouse.getStatus(),
-////                        maquina.getIdMaquina(),
-////                        maquina.getFkEmpresa()
-////                );
-//                //--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//                //  Insert Tabela Metrica Disco
-//                metrica.setUnidadeMedida("Kbs");
-//                componente.setIdComponente(1);
-//                List<Disco> discos = grupoDeDiscos.getDiscos();
-//                Long discoLeitura;
-//
-//                for (Disco disco : discos) {
-//                    discoLeitura = disco.getBytesDeLeitura();
-//                    double discoLeituraDouble = (double) discoLeitura;
-//                    discoLeitura = disco.getBytesDeLeitura();
-//                    double discoLeituraKB = discoLeitura / 1024.0;
-//                    System.out.println(discoLeituraKB);
-//
-//                    conMysql.update("insert into Metrica(valorUtilizado,unidadeMedida,dataHora,fkMaquina,fkEmpresa, fkComponente) values (?,?,?,?,?,?)",
-//                            discoLeituraKB,
-//                            metrica.getUnidadeMedida(),
-//                            dataHoraAcesso,
-//                            maquina.getIdMaquina(),
-//                            maquina.getFkEmpresa(),
-//                            componente.getIdComponente()
-//                    );
-//                    break;
-//                }
-//
-//                // Insert Tabela Metrica Processador
-//                Double Processador = processador.getUso();
-//                metrica.setUnidadeMedida("Gb");
-//                componente.setIdComponente(2);
-//
-//                conMysql.update("insert into Metrica(valorUtilizado,unidadeMedida,dataHora,fkMaquina,fkEmpresa, fkComponente) values (?,?,?,?,?,?)",
-//                        Processador,
-//                        metrica.getUnidadeMedida(),
-//                        dataHoraAcesso,
-//                        maquina.getIdMaquina(),
-//                        maquina.getFkEmpresa(),
-//                        componente.getIdComponente()
-//                );
-//
-//                conAzure.update("insert into Metrica(valorUtilizado,unidadeMedida,dataHora,fkMaquina,fkEmpresa, fkComponente) values (?,?,?,?,?,?)",
-//                        Processador,
-//                        metrica.getUnidadeMedida(),
-//                        dataHoraAcesso,
-//                        maquina.getIdMaquina(),
-//                        maquina.getFkEmpresa(),
-//                        componente.getIdComponente()
-//                );
-//
-//                // Insert Tabela Metrica Memoria
-//                long LongMemoriaUso = memoria.getEmUso();
-//                double memoriaEmUsoGB = (double) LongMemoriaUso / (1024 * 1024 * 1024);
-//
-//                metrica.setUnidadeMedida("Gb");
-//                componente.setIdComponente(3);
-//
-//                conMysql.update("insert into Metrica(valorUtilizado,unidadeMedida,dataHora,fkMaquina,fkEmpresa, fkComponente) values (?,?,?,?,?,?)",
-//                        memoriaEmUsoGB,
-//                        metrica.getUnidadeMedida(),
-//                        dataHoraAcesso,
-//                        maquina.getIdMaquina(),
-//                        maquina.getFkEmpresa(),
-//                        componente.getIdComponente()
-//                );
-//
-//                conAzure.update("insert into Metrica(valorUtilizado,unidadeMedida,dataHora,fkMaquina,fkEmpresa, fkComponente) values (?,?,?,?,?,?)",
-//                        memoriaEmUsoGB,
-//                        metrica.getUnidadeMedida(),
-//                        dataHoraAcesso,
-//                        maquina.getIdMaquina(),
-//                        maquina.getFkEmpresa(),
-//                        componente.getIdComponente()
-//                );
+                //--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                //  Insert Tabela Metrica Disco
+                metrica.setUnidadeMedida("Kbs");
+                componente.setIdComponente(1);
+                List<Disco> discos = grupoDeDiscos.getDiscos();
+                Long discoLeitura;
+
+                for (Disco disco : discos) {
+                    discoLeitura = disco.getBytesDeLeitura();
+                    double discoLeituraDouble = (double) discoLeitura;
+                    discoLeitura = disco.getBytesDeLeitura();
+                    double discoLeituraKB = discoLeitura / 1024.0;
+                    System.out.println(discoLeituraKB);
+
+                    conMysql.update("insert into Metrica(valorUtilizado,unidadeMedida,dataHora,fkMaquina,fkEmpresa, fkComponente) values (?,?,?,?,?,?)",
+                            discoLeituraKB,
+                            metrica.getUnidadeMedida(),
+                            dataHoraAcesso,
+                            maquina.getIdMaquina(),
+                            maquina.getFkEmpresa(),
+                            componente.getIdComponente()
+                    );
+                    break;
+                }
+
+                // Insert Tabela Metrica Processador
+                Double Processador = processador.getUso();
+                metrica.setUnidadeMedida("Gb");
+                componente.setIdComponente(2);
+
+                conMysql.update("insert into Metrica(valorUtilizado,unidadeMedida,dataHora,fkMaquina,fkEmpresa, fkComponente) values (?,?,?,?,?,?)",
+                        Processador,
+                        metrica.getUnidadeMedida(),
+                        dataHoraAcesso,
+                        maquina.getIdMaquina(),
+                        maquina.getFkEmpresa(),
+                        componente.getIdComponente()
+                );
+
+                conAzure.update("insert into Metrica(valorUtilizado,unidadeMedida,dataHora,fkMaquina,fkEmpresa, fkComponente) values (?,?,?,?,?,?)",
+                        Processador,
+                        metrica.getUnidadeMedida(),
+                        dataHoraAcesso,
+                        maquina.getIdMaquina(),
+                        maquina.getFkEmpresa(),
+                        componente.getIdComponente()
+                );
+
+                // Insert Tabela Metrica Memoria
+                long LongMemoriaUso = memoria.getEmUso();
+                double memoriaEmUsoGB = (double) LongMemoriaUso / (1024 * 1024 * 1024);
+
+                metrica.setUnidadeMedida("Gb");
+                componente.setIdComponente(3);
+
+                conMysql.update("insert into Metrica(valorUtilizado,unidadeMedida,dataHora,fkMaquina,fkEmpresa, fkComponente) values (?,?,?,?,?,?)",
+                        memoriaEmUsoGB,
+                        metrica.getUnidadeMedida(),
+                        dataHoraAcesso,
+                        maquina.getIdMaquina(),
+                        maquina.getFkEmpresa(),
+                        componente.getIdComponente()
+                );
+
+                conAzure.update("insert into Metrica(valorUtilizado,unidadeMedida,dataHora,fkMaquina,fkEmpresa, fkComponente) values (?,?,?,?,?,?)",
+                        memoriaEmUsoGB,
+                        metrica.getUnidadeMedida(),
+                        dataHoraAcesso,
+                        maquina.getIdMaquina(),
+                        maquina.getFkEmpresa(),
+                        componente.getIdComponente()
+                );
 
                 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------
                 // Selects com Resultados
