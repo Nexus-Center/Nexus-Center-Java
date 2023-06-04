@@ -4,13 +4,10 @@
  */
 package conexao.JDBC;
 
-import java.time.Instant;
-
 /**
  *
  * @author vitor
  */
-
 // Tabela RegistroAtividade
 public class RegistroAtividade {
 
@@ -62,8 +59,6 @@ public class RegistroAtividade {
     public void setTempoDeAtividade(String tempoDeAtividade) {
         this.tempoDeAtividade = tempoDeAtividade;
     }
-
-   
 
     @Override
     public String toString() {

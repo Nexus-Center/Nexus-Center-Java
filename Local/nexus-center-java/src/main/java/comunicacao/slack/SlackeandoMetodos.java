@@ -35,7 +35,6 @@ public class SlackeandoMetodos {
                 .build();
         response = slack.methods().chatPostMessage(message);
         System.out.println("Mensagem enviada com sucesso! ID da mensagem: " + response.getTs());
-    
 
     }
 
@@ -47,11 +46,12 @@ public class SlackeandoMetodos {
         message = ChatPostMessageRequest.builder()
                 .token(slackToken)
                 .channel("#canal-de-alerta")
-                .text(String.format("Atenção O seu Hd alcançou o límite máximo configurado para alerta, a porcentagem de uso alcançou %.2f, favor verificar o motivo do erro!",porcentagem))
+                .text(String.format("Atenção O seu Hd alcançou o límite máximo configurado para alerta, a porcentagem de uso alcançou %.2f, favor verificar o motivo do erro!", porcentagem))
                 .build();
         response = slack.methods().chatPostMessage(message);
         System.out.println("Mensagem enviada com sucesso! ID da mensagem: " + response.getTs());
     }
+
     public void notificarErroMem(Double porcentagem) throws SlackApiException, IOException {
         token = new UsuarioDAO();
         slackToken = token.coletarCodigoSlack();
@@ -60,12 +60,12 @@ public class SlackeandoMetodos {
         message = ChatPostMessageRequest.builder()
                 .token(slackToken)
                 .channel("#canal-de-alerta")
-                .text(String.format("Atenção a memória alcançou o límite máximo configurado para alerta, a porcentagem de uso alcançou %.2f, favor aumentar a quantidade de memória ou reduzir o número de processos inicializados no sistema!",porcentagem))
+                .text(String.format("Atenção a memória alcançou o límite máximo configurado para alerta, a porcentagem de uso alcançou %.2f, favor aumentar a quantidade de memória ou reduzir o número de processos inicializados no sistema!", porcentagem))
                 .build();
         response = slack.methods().chatPostMessage(message);
         System.out.println("Mensagem enviada com sucesso! ID da mensagem: " + response.getTs());
     }
-    
+
     public void notificarErroProcessador(Double porcentagem) throws SlackApiException, IOException {
         token = new UsuarioDAO();
         slackToken = token.coletarCodigoSlack();
@@ -74,7 +74,7 @@ public class SlackeandoMetodos {
         message = ChatPostMessageRequest.builder()
                 .token(slackToken)
                 .channel("#canal-de-alerta")
-                .text(String.format("Atenção o processador alcançou o límite máximo configurado para alerta, a porcentagem de uso alcançou %.2f, favor reduzir o número de processos!",porcentagem))
+                .text(String.format("Atenção o processador alcançou o límite máximo configurado para alerta, a porcentagem de uso alcançou %.2f, favor reduzir o número de processos!", porcentagem))
                 .build();
         response = slack.methods().chatPostMessage(message);
         System.out.println("Mensagem enviada com sucesso! ID da mensagem: " + response.getTs());

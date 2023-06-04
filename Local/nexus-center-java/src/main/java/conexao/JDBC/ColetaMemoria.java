@@ -34,7 +34,6 @@ public class ColetaMemoria {
     public ColetaMemoria() {
         formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         memoria = new Memoria();
-//        this.capacidade = memoria.getNumeroCpusFisicas().doubleValue()+memoria.getNumeroCpusLogicas().doubleValue();
         this.idMetrica = null;
         this.capacidade = memoria.getTotal().doubleValue() / (1024 * 1024 * 1024);
         this.valorUtilizado = memoria.getEmUso().doubleValue() / (1024 * 1024 * 1024);

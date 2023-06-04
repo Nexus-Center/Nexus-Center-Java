@@ -8,13 +8,6 @@ import com.github.britooo.looca.api.core.Looca;
 import com.github.britooo.looca.api.group.discos.Disco;
 import com.github.britooo.looca.api.group.discos.DiscoGrupo;
 import com.github.britooo.looca.api.group.discos.Volume;
-import com.github.britooo.looca.api.group.memoria.Memoria;
-import com.github.britooo.looca.api.group.processador.Processador;
-import com.github.britooo.looca.api.group.processos.ProcessoGrupo;
-import com.github.britooo.looca.api.group.processos.Processo;
-import com.github.britooo.looca.api.group.sistema.Sistema;
-import com.github.britooo.looca.api.group.dispositivos.DispositivosUsbGrupo;
-import com.github.britooo.looca.api.group.dispositivos.DispositivoUsb;
 import com.slack.api.methods.SlackApiException;
 import comunicacao.slack.SlackeandoMetodos;
 import java.io.IOException;
@@ -22,13 +15,13 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
-import oshi.software.os.OSFileStore;
 
 /**
  *
  * @author rafae
  */
 public class ColetaHDInfo {
+
     private SlackeandoMetodos mensagem;
     private DateTimeFormatter formatter;
     private Integer idMetrica;
@@ -66,7 +59,7 @@ public class ColetaHDInfo {
             capacidadeocupada += volume.getDisponivel();
 
         }
-        //        this.capacidade = memoria.getNumeroCpusFisicas().doubleValue()+memoria.getNumeroCpusLogicas().doubleValue();
+
         this.idMetrica = null;
         this.capacidade = grupoDeDiscos.getTamanhoTotal().doubleValue() / (1024 * 1024 * 1024);
         this.valorUtilizado = this.capacidade - (capacidadeocupada / (1024 * 1024 * 1024));
@@ -98,7 +91,7 @@ public class ColetaHDInfo {
 
     public void enviaDadosTotalhd(Integer fkMaquina, Integer fkEmpresa) throws SlackApiException, IOException {
         ColetaHDInfo coleta = new ColetaHDInfo();
-        mensagem= new SlackeandoMetodos();
+        mensagem = new SlackeandoMetodos();
 
         this.conectHd().update("insert into Metrica values(?,?,?,?,?,?,?)",
                 coleta.idMetrica = null,
@@ -115,7 +108,7 @@ public class ColetaHDInfo {
                 fkMaquina,
                 fkEmpresa.toString(),
                 1);
-        porcentagem=((coleta.valorUtilizado / coleta.capacidade) * 100);
+        porcentagem = ((coleta.valorUtilizado / coleta.capacidade) * 100);
         if (porcentagem < 80) {
             statusAlerta = "Ideal";
         } else if (porcentagem >= 80 && porcentagem < 90) {
@@ -124,7 +117,7 @@ public class ColetaHDInfo {
             statusAlerta = "Alerta";
             mensagem.notificarErroHd(porcentagem);
         }
-      this.conectHd().update("insert into AlertaDashboard values(?,?,?,?,?)",
+        this.conectHd().update("insert into AlertaDashboard values(?,?,?,?,?)",
                 idAlerta = null,
                 coleta.dataHora,
                 statusAlerta,
@@ -137,7 +130,6 @@ public class ColetaHDInfo {
                 fkMaquina);
 
     }
-  
 
     public void enviaDadosTotalhdazu(Integer fkMaquina, Integer fkEmpresa) {
         ColetaHDInfo coleta = new ColetaHDInfo();
