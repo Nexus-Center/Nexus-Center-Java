@@ -232,8 +232,7 @@ public class LoginJframe extends javax.swing.JFrame {
             String senha_maquina = txtSenha.getText();
 
             Maquina maquina = new Maquina(patrimonio_maquina, senha_maquina);// Adicionado Construtor na classe máquina
-            SlackeandoMetodos aviso= new SlackeandoMetodos();
-            
+            SlackeandoMetodos aviso = new SlackeandoMetodos();
 
             UsuarioDAO objUsuarioDAO = new UsuarioDAO();// Executa-se a consulta ao banco referente ao método para instanciar objeto Maquina que servirá ara autenticação;
             ResultSet rsusariodao = objUsuarioDAO.autenticsacaoUsuario(maquina);// Nesta linha é instanciado objeto com parâmetros provenientes da consulta com a Azure
@@ -389,8 +388,8 @@ public class LoginJframe extends javax.swing.JFrame {
                         dataHoraAcesso
                 );
                 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-              
-    // Insert Tabela ConfiguracaoComponente 
+
+                // Insert Tabela ConfiguracaoComponente 
                 //set CPU
                 componente.setIdComponente(1);
                 configComponente.setUnidadeMedida("GB");
@@ -455,89 +454,7 @@ public class LoginJframe extends javax.swing.JFrame {
                         configComponente.getCapacidade(),
                         configComponente.getUnidadeMedida()
                 );
-
-                //--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//                // Insert Tabela MetricaMouse 
-//                conMysql.update("insert into MetricaMouse(codernadaX,codernadaY,dataHora,statusMouse,fkMaquina,fkEmpresa) values (?,?,?,?,?,?)",
-//                        metricaMouse.getCordenadaX(),
-//                        metricaMouse.getCordenaday(),
-//                        metricaMouse.getDataHora(),
-//                        metricaMouse.getStatus(),
-//                        maquina.getIdMaquina(),
-//                        maquina.getFkEmpresa()
-//                );
-                //--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-                //  Insert Tabela Metrica Disco
-                metrica.setUnidadeMedida("Kbs");
-                componente.setIdComponente(1);
-                List<Disco> discos = grupoDeDiscos.getDiscos();
-                Long discoLeitura;
-
-                for (Disco disco : discos) {
-                    discoLeitura = disco.getBytesDeLeitura();
-                    double discoLeituraDouble = (double) discoLeitura;
-                    discoLeitura = disco.getBytesDeLeitura();
-                    double discoLeituraKB = discoLeitura / 1024.0;
-                    System.out.println(discoLeituraKB);
-
-                    conMysql.update("insert into Metrica(valorUtilizado,unidadeMedida,dataHora,fkMaquina,fkEmpresa, fkComponente) values (?,?,?,?,?,?)",
-                            discoLeituraKB,
-                            metrica.getUnidadeMedida(),
-                            dataHoraAcesso,
-                            maquina.getIdMaquina(),
-                            maquina.getFkEmpresa(),
-                            componente.getIdComponente()
-                    );
-                    break;
-                }
-
-                // Insert Tabela Metrica Processador
-                Double Processador = processador.getUso();
-                metrica.setUnidadeMedida("Gb");
-                componente.setIdComponente(2);
-
-                conMysql.update("insert into Metrica(valorUtilizado,unidadeMedida,dataHora,fkMaquina,fkEmpresa, fkComponente) values (?,?,?,?,?,?)",
-                        Processador,
-                        metrica.getUnidadeMedida(),
-                        dataHoraAcesso,
-                        maquina.getIdMaquina(),
-                        maquina.getFkEmpresa(),
-                        componente.getIdComponente()
-                );
-
-                conAzure.update("insert into Metrica(valorUtilizado,unidadeMedida,dataHora,fkMaquina,fkEmpresa, fkComponente) values (?,?,?,?,?,?)",
-                        Processador,
-                        metrica.getUnidadeMedida(),
-                        dataHoraAcesso,
-                        maquina.getIdMaquina(),
-                        maquina.getFkEmpresa(),
-                        componente.getIdComponente()
-                );
-
-                // Insert Tabela Metrica Memoria
-                long LongMemoriaUso = memoria.getEmUso();
-                double memoriaEmUsoGB = (double) LongMemoriaUso / (1024 * 1024 * 1024);
-
-                metrica.setUnidadeMedida("Gb");
-                componente.setIdComponente(3);
-
-                conMysql.update("insert into Metrica(valorUtilizado,unidadeMedida,dataHora,fkMaquina,fkEmpresa, fkComponente) values (?,?,?,?,?,?)",
-                        memoriaEmUsoGB,
-                        metrica.getUnidadeMedida(),
-                        dataHoraAcesso,
-                        maquina.getIdMaquina(),
-                        maquina.getFkEmpresa(),
-                        componente.getIdComponente()
-                );
-
-                conAzure.update("insert into Metrica(valorUtilizado,unidadeMedida,dataHora,fkMaquina,fkEmpresa, fkComponente) values (?,?,?,?,?,?)",
-                        memoriaEmUsoGB,
-                        metrica.getUnidadeMedida(),
-                        dataHoraAcesso,
-                        maquina.getIdMaquina(),
-                        maquina.getFkEmpresa(),
-                        componente.getIdComponente()
-                );
+     
 
                 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------
                 // Selects com Resultados
@@ -555,10 +472,10 @@ public class LoginJframe extends javax.swing.JFrame {
                 List<Maquina> maquinas = conMysql.query("select * from Maquina join Empresa on fkempresa=idempresa order by idMaquina asc",
                         new BeanPropertyRowMapper(Maquina.class));
                 System.out.println(maquinas);
-                
+
 //                aviso.notificar();
                 EnviaDados inicio = new EnviaDados();
-                inicio.iniciarEnvio(maquina.getIdMaquina(),maquina.getFkEmpresa());
+                inicio.iniciarEnvio(maquina.getIdMaquina(), maquina.getFkEmpresa());
 
             } else {
                 // Erro
